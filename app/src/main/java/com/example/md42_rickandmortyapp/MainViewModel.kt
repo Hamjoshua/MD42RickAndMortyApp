@@ -7,14 +7,15 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
-    val _page : MutableLiveData<Int> = MutableLiveData<Int>()
-    val _charsResponce : MutableLiveData<ParseResult> = MutableLiveData<ParseResult>()
+    private val _page : MutableLiveData<Int> = MutableLiveData<Int>()
+    private val _charsResponce : MutableLiveData<ParseResult> = MutableLiveData<ParseResult>()
 
     val page : LiveData<Int> = _page
     val charsResponce : LiveData<ParseResult> get() = _charsResponce
 
     init{
         _page.value = 1
+        fetchCharacters(page.value!!)
     }
 
     fun fetchCharacters(externalPage: Int){
@@ -24,6 +25,7 @@ class MainViewModel : ViewModel() {
 
             getter.body()?.let {
                 val body: ParseResult = it
+                _charsResponce.value = body
             }
 
             _page.value = externalPage
