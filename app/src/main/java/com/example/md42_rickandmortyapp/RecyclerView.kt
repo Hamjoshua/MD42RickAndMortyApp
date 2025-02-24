@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.md42_rickandmortyapp.databinding.RItemBinding
-
+import androidx.viewbinding.ViewBinding
+import com.example.md42_rickandmortyapp.databinding.RItemAlienBinding
+import com.example.md42_rickandmortyapp.databinding.RItemHumanBinding
+import com.example.md42_rickandmortyapp.databinding.RItemUnknownBinding
 
 
 class CharacterAdapter(private val characters: ArrayList<Character>) :
@@ -16,13 +18,44 @@ class CharacterAdapter(private val characters: ArrayList<Character>) :
         const val VIEW_TYPE_ALIEN : Int = 1
         const val VIEW_TYPE_OTHER : Int = 2
     }
-    class CharacterViewHolder(private val itemBinding: RItemBinding) :
-        RecyclerView.ViewHolder(itemBinding.root)
+
+    abstract class CharacterViewHolder(private val itemBinding: ViewBinding) :
+            RecyclerView.ViewHolder(itemBinding.root)
     {
-        fun bind(character: Character){
+        abstract fun bind(character: Character)
+    }
+
+    class HumanViewHolder(private val itemBinding: RItemHumanBinding) :
+        CharacterViewHolder(itemBinding)
+    {
+        override fun bind(character: Character){
             character.setImageTo(itemBinding.avatarImage)
             itemBinding.nameTv.text = character.name
             itemBinding.typeTv.text = character.species
+            itemBinding.genderTv.text = character.gender
+        }
+    }
+
+    class AlienViewHolder(private val itemBinding : RItemAlienBinding) :
+        CharacterViewHolder(itemBinding)
+    {
+        override fun bind(character: Character) {
+            character.setImageTo(itemBinding.avatarImage)
+            itemBinding.nameTv.text = character.name
+            itemBinding.idTv.text = character.id
+            itemBinding.typeTv.text = character.species
+        }
+    }
+    class UnknownViewHolder(private val itemBinding : RItemUnknownBinding) :
+        CharacterViewHolder(itemBinding)
+    {
+        override fun bind(character: Character) {
+            character.setImageTo(itemBinding.avatarImage)
+            itemBinding.nameTv.text = character.name
+            itemBinding.idTv.text = character.id
+            itemBinding.typeTv.text = character.species
+            itemBinding.genderTv.text = character.gender
+            itemBinding.statusTv.text = character.status
         }
     }
 
@@ -35,9 +68,23 @@ class CharacterAdapter(private val characters: ArrayList<Character>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
-       val itemBinding = RItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-
-       return CharacterViewHolder(itemBinding)
+       return when(viewType){
+           VIEW_TYPE_HUMAN -> {
+               val itemBinding = RItemHumanBinding.inflate(LayoutInflater.from(parent.context),
+                   parent, false)
+               return HumanViewHolder(itemBinding)
+           }
+           VIEW_TYPE_ALIEN -> {
+               val itemBinding = RItemAlienBinding.inflate(LayoutInflater.from(parent.context),
+                   parent, false)
+               return AlienViewHolder(itemBinding)
+           }
+           else -> {
+               val itemBinding = RItemUnknownBinding.inflate(LayoutInflater.from(parent.context),
+                   parent, false)
+               return UnknownViewHolder(itemBinding)
+           }
+       }
     }
 
     override fun getItemCount(): Int = characters.size
