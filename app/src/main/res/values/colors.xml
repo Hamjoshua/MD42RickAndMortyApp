@@ -5,4 +5,5 @@
     <color name="humanYellow">#FFC107</color>
     <color name="alienGreen">#009688</color>
     <color name="unknownViolet">#673AB7</color>
+    <color name="unknownTextColor">#F44336</color>
 </resources>
