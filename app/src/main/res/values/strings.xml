@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MD42-RickAndMortyApp</string>
+    <string name="fetch_btn">Обновить список персонажей</string>
 </resources>
