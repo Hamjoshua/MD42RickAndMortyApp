@@ -15,3 +15,12 @@ data class Character (
         Glide.with(view.context).load(image).into(view)
     }
 }
+
+data class Info (
+    val pages: Int
+)
+
+data class RickAndMortyAPIResponce(
+    val info: Info,
+    val results: ArrayList<Character>
+)

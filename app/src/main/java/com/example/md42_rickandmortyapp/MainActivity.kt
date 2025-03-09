@@ -2,6 +2,7 @@ package com.example.md42_rickandmortyapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -23,12 +24,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun setObserverOnViewModel(){
         viewModel.charsResponce.observe(this, Observer {
-            val rView = binding.rView
+            try {
+                val rView = binding.rView
 
-            it.results.let{
-                rView.layoutManager = LinearLayoutManager(this)
-                rView.adapter = CharacterAdapter(it)
+                it.let{
+                    rView.layoutManager = LinearLayoutManager(this)
+                    rView.adapter = CharacterAdapter(it.results)
+                }
             }
+            // Вывод ошибки
+            catch (error : Exception){
+                Toast.makeText(this, error.message, Toast.LENGTH_LONG).show()
+            }
+
         })
     }
 
