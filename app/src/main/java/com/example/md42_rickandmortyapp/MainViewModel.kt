@@ -8,10 +8,14 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 class MainViewModel : ViewModel() {
-    private val _page : MutableLiveData<Int> = MutableLiveData<Int>()
-    private val _charsResponce : MutableLiveData<RickAndMortyAPIResponce> = MutableLiveData<RickAndMortyAPIResponce>()
+    private val _page : MutableLiveData<Int> = MutableLiveData<Int>(0)
+    private val _maxPage : MutableLiveData<Int> = MutableLiveData<Int>(999)
+    private val _charsResponce : MutableLiveData<RickAndMortyAPIResponce> =
+        MutableLiveData<RickAndMortyAPIResponce>()
+
 
     val page : LiveData<Int> = _page
+    val maxPage : LiveData<Int> get() = _maxPage
     val charsResponce : LiveData<RickAndMortyAPIResponce> get() = _charsResponce
 
     init{
@@ -31,6 +35,7 @@ class MainViewModel : ViewModel() {
 
             getter.body()?.let {
                 _charsResponce.value = it
+                _maxPage.value = it.info.pages
             }
 
             _page.value = externalPage

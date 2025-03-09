@@ -6,15 +6,40 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
-        android:inputType="number"
+    <LinearLayout
+        android:id="@+id/page_control_panel"
         app:layout_constraintTop_toTopOf="parent"
-        android:id="@+id/page_et"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:weightSum="6"
+        >
+        <Button
+            android:id="@+id/prev_btn"
+            android:text="@string/prev_btn"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+        </Button>
+        <EditText
+            android:textAlignment="center"
+            android:inputType="number"
+            android:layout_weight="4"
+            android:id="@+id/page_et"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/next_btn"
+            android:text="@string/next_btn"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+
+        </Button>
+    </LinearLayout>
 
     <Button
-        app:layout_constraintTop_toBottomOf="@id/page_et"
+        app:layout_constraintTop_toBottomOf="@id/page_control_panel"
         android:id="@+id/fetch_btn"
         android:text="@string/fetch_btn"
         android:layout_width="match_parent"

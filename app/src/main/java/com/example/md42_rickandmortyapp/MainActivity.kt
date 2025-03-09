@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         setObserverOnViewModel()
         setButtonListener()
         initPageEt()
+        setButtonsFromPageControl()
     }
 
     private fun setObserverOnViewModel(){
@@ -38,6 +39,23 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    private fun setButtonsFromPageControl(){
+        val currentPage = viewModel.page.value!!
+        val maxPage = viewModel.maxPage.value!!
+
+        binding.nextBtn.setOnClickListener{
+            if(currentPage < maxPage){
+                viewModel.fetchCharacters(currentPage + 1)
+            }
+        }
+
+        binding.prevBtn.setOnClickListener{
+            if(currentPage > 0){
+                viewModel.fetchCharacters(currentPage - 1)
+            }
+        }
     }
 
     private fun setButtonListener(){
