@@ -8,10 +8,12 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.md42_rickandmortyapp.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineExceptionHandler
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding : ActivityMainBinding
     private val viewModel: MainViewModel by viewModels<MainViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -21,50 +23,52 @@ class MainActivity : AppCompatActivity() {
         setButtonListener()
         initPageEt()
         setButtonsFromPageControl()
+        subscribeToErrorMessage()
     }
 
     private fun setObserverOnViewModel(){
         viewModel.charsResponce.observe(this, Observer {
-            try {
-                val rView = binding.rView
+            val rView = binding.rView
 
-                it.let{
-                    rView.layoutManager = LinearLayoutManager(this)
-                    rView.adapter = CharacterAdapter(it.results)
-                }
+            it.let{
+                rView.layoutManager = LinearLayoutManager(this)
+                rView.adapter = CharacterAdapter(it.results)
             }
-            // Вывод ошибки
-            catch (error : Exception){
-                Toast.makeText(this, error.message, Toast.LENGTH_LONG).show()
-            }
+        })
+    }
 
+    private fun subscribeToErrorMessage(){
+        viewModel.errorMessage.observe(this, Observer {
+            viewModel.errorMessage.value?.let {
+                Toast.makeText(this, viewModel.errorMessage.value, Toast.LENGTH_LONG).show()
+            }
         })
     }
 
     private fun setButtonsFromPageControl(){
-        val currentPage = viewModel.page.value!!
-        val maxPage = viewModel.maxPage.value!!
-
         binding.nextBtn.setOnClickListener{
-            if(currentPage < maxPage){
-                viewModel.fetchCharacters(currentPage + 1)
-            }
+            val currentPage : Int = viewModel.page.value!!
+
+            viewModel.fetchCharacters(currentPage + 1)
         }
 
         binding.prevBtn.setOnClickListener{
-            if(currentPage > 0){
-                viewModel.fetchCharacters(currentPage - 1)
-            }
+            val currentPage : Int = viewModel.page.value!!
+
+            viewModel.fetchCharacters(currentPage - 1)
         }
     }
 
     private fun setButtonListener(){
         binding.fetchBtn.setOnClickListener{
-            viewModel.fetchCharacters(binding.pageEt.text.toString().toInt())
+            val etPage = binding.pageEt.text.toString().toInt()
+            viewModel.fetchCharacters(etPage)
         }
     }
 
     private fun initPageEt(){
-        binding.pageEt.setText(viewModel.page.value.toString())
+        viewModel.page.observe(this, Observer {
+            binding.pageEt.setText(viewModel.page.value.toString())
+        })
     }
 }
