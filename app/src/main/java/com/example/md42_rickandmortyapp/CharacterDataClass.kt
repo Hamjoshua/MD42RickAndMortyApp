@@ -15,7 +15,3 @@ data class Character (
         Glide.with(view.context).load(image).into(view)
     }
 }
-
-data class ParseResult (
-    val results: ArrayList<Character>
-)

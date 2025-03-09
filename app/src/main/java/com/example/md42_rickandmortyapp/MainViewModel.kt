@@ -8,10 +8,10 @@ import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
     private val _page : MutableLiveData<Int> = MutableLiveData<Int>()
-    private val _charsResponce : MutableLiveData<ParseResult> = MutableLiveData<ParseResult>()
+    private val _charsResponce : MutableLiveData<ArrayList<Character>> = MutableLiveData<ArrayList<Character>>()
 
     val page : LiveData<Int> = _page
-    val charsResponce : LiveData<ParseResult> get() = _charsResponce
+    val charsResponce : LiveData<ArrayList<Character>> get() = _charsResponce
 
     init{
         _page.value = 1
@@ -24,7 +24,7 @@ class MainViewModel : ViewModel() {
             val getter = requester.getCharacters(externalPage)
 
             getter.body()?.let {
-                val body: ParseResult = it
+                val body: ArrayList<Character> = it
                 _charsResponce.value = body
             }
 

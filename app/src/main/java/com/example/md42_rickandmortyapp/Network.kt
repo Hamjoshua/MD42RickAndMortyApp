@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface CharactersAPIGet {
     // TODO выбор страницы
     @GET("character")
-    suspend fun getCharacters(@Query("page") page : Int): Response<ParseResult>
+    suspend fun getCharacters(@Query("page") page : Int): Response<ArrayList<Character>>
 }
 
 object RetrofitHelper {
