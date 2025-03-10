@@ -30,6 +30,9 @@ android {
             )
         }
     }
+
+
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -51,7 +54,14 @@ dependencies {
     implementation("com.google.android.material:material:1.12.0")
     implementation("androidx.constraintlayout:constraintlayout:2.2.0")
     implementation("com.google.code.gson:gson:2.12.1")
+
     testImplementation("junit:junit:4.13.2")
+    testImplementation ("org.mockito:mockito-core:5.16.0")
+    testImplementation ("org.mockito.kotlin:mockito-kotlin:5.4.0")
+    testImplementation("android.arch.core:core-testing:1.0.0-alpha3")
+
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.06.01"))
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.6.1")
 }
