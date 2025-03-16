@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
+class MainViewModel(private val characterRepository : NetworkCharacterRepository) : ViewModel() {
     private val _page : MutableLiveData<Int> = MutableLiveData<Int>(1)
     private val _maxPage : MutableLiveData<Int> = MutableLiveData<Int>(999)
     private val _charsResponce : MutableLiveData<RickAndMortyAPIResponce> =
@@ -30,12 +30,6 @@ class MainViewModel : ViewModel() {
                 if(externalPage < 1 || externalPage > maxPage.value!!){
                     throw Exception("Доступны страницы от 1 до ${maxPage.value!!}")
                 }
-
-
-
-                val requester = RetrofitHelper.getInstance().create(CharactersAPIGet::class.java)
-                val characterRepository : NetworkCharacterRepository =
-                    NetworkCharacterRepository(requester)
 
                 val responce = characterRepository.getCharacters(externalPage)
                     .getOrThrow()
