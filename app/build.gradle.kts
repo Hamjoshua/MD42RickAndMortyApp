@@ -56,9 +56,13 @@ dependencies {
     implementation("com.google.code.gson:gson:2.12.1")
 
     testImplementation("junit:junit:4.13.2")
-    testImplementation ("org.mockito:mockito-core:5.16.0")
-    testImplementation ("org.mockito.kotlin:mockito-kotlin:5.4.0")
-    testImplementation("android.arch.core:core-testing:1.0.0-alpha3")
+    testImplementation("org.mockito:mockito-core:5.16.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+    testImplementation("android.arch.core:core-testing:1.1.1")
+    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
+    testImplementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 
     androidTestImplementation("androidx.test.ext:junit:1.2.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.06.01"))

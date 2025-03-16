@@ -4,9 +4,14 @@ import android.arch.core.executor.testing.InstantTaskExecutorRule
 import android.net.http.NetworkException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.TestRule
@@ -18,19 +23,28 @@ import org.mockito.Mockito
  *
  * See [testing documentation](http://d.android.com/tools/testing).
  */
+@ExperimentalCoroutinesApi
 class ExampleUnitTest {
+    private val sampleDispatcher = Dispatchers.Unconfined
+    private lateinit var viewModel: MainViewModel
 
-    @JvmField
-    @Rule
-    var rule: TestRule = InstantTaskExecutorRule()
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    @get:Rule
+    val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @Before
+    fun setUp() {
+        Dispatchers.setMain(sampleDispatcher)
+        viewModel = MainViewModel()
     }
 
-        @Test
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+    }
+
+    @Test
     fun apiService_correctResponse_dataIsEqual(){
-        CoroutineScope(Dispatchers.IO).launch {
+        CoroutineScope(sampleDispatcher).launch {
             val requester = RetrofitHelper.getInstance().create(CharactersAPIGet::class.java)
             val getter = requester.getCharacters(1)
 
@@ -40,8 +54,6 @@ class ExampleUnitTest {
 
     @Test
     fun viewModel_catchedError_errorMessageIsNotNull(){
-        val viewModel = MainViewModel()
-
         viewModel.fetchCharacters(666)
 
         assertNotNull(viewModel.errorMessage)

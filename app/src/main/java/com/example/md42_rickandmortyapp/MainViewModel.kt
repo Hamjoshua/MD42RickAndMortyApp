@@ -31,14 +31,18 @@ class MainViewModel : ViewModel() {
                     throw Exception("Доступны страницы от 1 до ${maxPage.value!!}")
                 }
 
-                val requester = RetrofitHelper.getInstance().create(CharactersAPIGet::class.java)
-                val getter = requester.getCharacters(externalPage)
 
-                getter.body()?.let {
-                    _charsResponce.value = it
-                    _page.value = externalPage
-                    _maxPage.value = it.info.pages
-                }
+
+                val requester = RetrofitHelper.getInstance().create(CharactersAPIGet::class.java)
+                val characterRepository : NetworkCharacterRepository =
+                    NetworkCharacterRepository(requester)
+
+                val responce = characterRepository.getCharacters(externalPage)
+                    .getOrThrow()
+
+                _charsResponce.value = responce
+                _page.value = externalPage
+                _maxPage.value = responce.info.pages
             }
             catch (error: Exception) {
                 _errorMessage.value = error.message
