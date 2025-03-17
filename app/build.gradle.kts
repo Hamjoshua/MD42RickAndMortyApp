@@ -58,7 +58,6 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     testImplementation("org.mockito:mockito-core:5.16.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
-    testImplementation("android.arch.core:core-testing:1.1.1")
     testImplementation("androidx.arch.core:core-testing:2.2.0")
     testImplementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
     testImplementation("androidx.lifecycle:lifecycle-livedata-ktx:2.8.7")

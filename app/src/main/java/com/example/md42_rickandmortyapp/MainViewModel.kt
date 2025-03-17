@@ -34,11 +34,6 @@ class MainViewModel(private val characterRepository : ICharacterRepository) : Vi
     val charsResponce : LiveData<RickAndMortyAPIResponce> get() = _charsResponce
     val errorMessage : LiveData<String> = _errorMessage
 
-    init{
-        _page.value = 1
-        fetchCharacters(page.value!!)
-    }
-
     fun fetchCharacters(externalPage: Int){
         viewModelScope.launch {
             try{
@@ -54,7 +49,7 @@ class MainViewModel(private val characterRepository : ICharacterRepository) : Vi
                 _maxPage.value = responce.info.pages
             }
             catch (error: Exception) {
-                _errorMessage.value = error.message
+                _errorMessage.postValue(error.message)
             }
 
         }

@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         setButtonsFromPageControl()
         subscribeToErrorMessage()
 
-
+        viewModel.fetchCharacters(1)
     }
 
     private fun setObserverOnViewModel(){
