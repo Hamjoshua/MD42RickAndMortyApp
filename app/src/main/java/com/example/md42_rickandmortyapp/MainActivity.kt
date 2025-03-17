@@ -2,6 +2,7 @@ package com.example.md42_rickandmortyapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Surface
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
@@ -12,10 +13,12 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding : ActivityMainBinding
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels { MainViewModel.Factory }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -24,6 +27,8 @@ class MainActivity : AppCompatActivity() {
         initPageEt()
         setButtonsFromPageControl()
         subscribeToErrorMessage()
+
+
     }
 
     private fun setObserverOnViewModel(){

@@ -3,10 +3,25 @@ package com.example.md42_rickandmortyapp
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import kotlinx.coroutines.launch
 
-class MainViewModel(private val characterRepository : NetworkCharacterRepository) : ViewModel() {
+
+
+class MainViewModel(private val characterRepository : ICharacterRepository) : ViewModel() {
+    companion object {
+        val Factory : ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val application = (this[APPLICATION_KEY] as CharacterApplication)
+                val characterRepository = application.container.characterRepository
+                MainViewModel(characterRepository = characterRepository)
+            }
+        }
+    }
     private val _page : MutableLiveData<Int> = MutableLiveData<Int>(1)
     private val _maxPage : MutableLiveData<Int> = MutableLiveData<Int>(999)
     private val _charsResponce : MutableLiveData<RickAndMortyAPIResponce> =
