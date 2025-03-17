@@ -2,6 +2,7 @@ package com.example.md42_rickandmortyapp
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -20,5 +21,13 @@ class ExampleInstrumentedTest {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("com.example.md42_rickandmortyapp", appContext.packageName)
+    }
+
+    @Test
+    fun viewModel_catchedError_errorMessageIsNotNull(){
+        val viewModel = MainViewModel()
+        viewModel.fetchCharacters(666)
+
+        assertNotNull(viewModel.errorMessage)
     }
 }
